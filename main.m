@@ -4,7 +4,7 @@ close all;
 %im = imread("salvia_training.jpg");
 %img_bin = local_vector(im);
 %figure, imshow(img_bin);
-locate_knn();
+train_knn();
 
 %gt = imread("gr_salvia_test.png") > 0;
 %cm = confmat(gt, img_bin);
