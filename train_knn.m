@@ -44,6 +44,7 @@ for i = 1:num_img_training
     
     var = compute_local_var(im2double(rgb2gray(im)), finestra);
     col = compute_local_col(im, finestra);
+    %% normalizzazione features??
     
     % Salvo le feature come vettori colonna per ogni immagine
     var_loc{i} = var(:);
@@ -62,9 +63,7 @@ X = [X_var, X_col];
 % Creo il modello kNN
 C = fitcknn(X, Y, 'NumNeighbors', 5);
 
-
-
-% Calcolo e visualizzo le predizioni per le immagini di test
+% Calcolo le performance sul test-set
 for i = 1:num_img_training
     test_var = compute_local_var(im2double(rgb2gray(immagini_test{i})), finestra);
     test_col = compute_local_col(immagini_test{i}, finestra);
@@ -99,5 +98,7 @@ for i = 1:num_img_training
     title("Test");
 
     fprintf('Test Accuracy: %f\n', cm_test.accuracy);
-end
 
+    save("data.mat", "C");
+
+end
