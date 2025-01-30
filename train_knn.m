@@ -37,55 +37,48 @@ for i = 1:num_img_training
     immagini_gt_test{i} = imresize(immagini_gt_test{i}, target_size);
 end
 
-% Creo cell array per contenere le feature di ogni immagine
-var_loc = cell(num_img_training, 1);
-col_loc = cell(num_img_training, 1);
-sat_loc = cell(num_img_training, 1);
-train_labels = cell(num_img_training, 1);
+% Prealloco, devono avere la stessa forma
+all_features = [];
+%zeros(4528384, 5);
+all_labels = [];
 
 for i = 1:num_img_training
     im = immagini_tr{i};
     gt = immagini_gt{i};
     
-    var = compute_local_var(im2double(rgb2gray(im)), finestra);
-    col = compute_local_col(im, finestra);
-    sat = compute_local_saturation(im, finestra);
-    
-    % Salvo le feature come vettori colonna per ogni immagine
-    var_loc{i} = var(:);
-    sat_loc{i} = sat(:);
-    col_loc{i} = col(:);
-    train_labels{i} = gt(:);
+    features = compute_all_features(im, finestra);
+    [r, c, num_features] = size(features);
+    features_reshaped = reshape(features, r * c, num_features);
+
+    labels_reshaped = gt(:); 
+
+    all_features = [all_features; features_reshaped];
+    all_labels = [all_labels; labels_reshaped];
 end
 
-% Concateno tutte le feature e labels
-X_var = cell2mat(var_loc);
-X_sat = cell2mat(sat_loc);
-X_col = cell2mat(col_loc);
-Y = cell2mat(train_labels);
-
-% Combino le due feature
-X = [X_var, X_sat, X_col];
+X = all_features;
+Y = all_labels;
 
 % Creo il modello kNN
-C = fitcknn(X, Y, 'NumNeighbors', 11);
+C = fitcknn(X, Y, 'NumNeighbors', 7);
 
 % Calcolo le performance sul test-set
+test_all_features = [];
 for i = 1:num_img_training
-    test_var = compute_local_var(im2double(rgb2gray(immagini_test{i})), finestra);
-    test_sat = compute_local_saturation(immagini_test{i}, finestra);
-    test_col = compute_local_col(immagini_test{i}, finestra);
-    
-    test_var_vec = test_var(:);
-    test_sat_vec = test_sat(:);
-    test_col_vec = test_col(:);
-    
-    test_X = [test_var_vec, test_sat_vec, test_col_vec];
+    test_features = compute_all_features(immagini_test{i}, finestra);
+    [tr, tc, t_num_features] = size(test_features);
+    test_features_reshaped = reshape(test_features, tr * tc, t_num_features);
+
+    test_all_features = [test_all_features; test_features_reshaped];
+
+    test_X = test_all_features;
     
     pred_labels = predict(C, test_X);
     
     pred_image = reshape(pred_labels, target_size);
-
+    
+    gt_logical = logical(immagini_gt_test{i});
+    pred_logical = logical(pred_image);
     
     % Visualizzo i risultati
     figure;
@@ -102,7 +95,7 @@ for i = 1:num_img_training
     title(['Ground Truth']);
     
     % Uso ConfMat
-    cm_test = confmat(immagini_gt_test{i}, pred_labels);
+    cm_test = confmat(gt_logical, pred_logical);
     figure;
     show_confmat(cm_test.cm_raw, cm_test.labels);
     title("Test");
