@@ -3,28 +3,32 @@
 clear;
 close all;
 
-num_img_training = 3;
+num_img_training = 4;
 target_size = [1064, 1064];
-finestra = 7; % scelta empiricamente
+finestra = 3; % scelta empiricamente
 immagini_tr = cell(1, num_img_training); % array di celle 
 immagini_tr{1} = imread("Training\oleandro_training.jpg");
 immagini_tr{2} = imread("Training\salvia_training.jpg");
 immagini_tr{3} = imread("Training\ulivo_training.jpg");
+immagini_tr{4} = imread("Training\rosmarino_training.jpg");
 
 immagini_gt = cell(1, num_img_training);
 immagini_gt{1} = im2gray(imread("Gt\Train\gt_oleandro_training.png")) > 0;
 immagini_gt{2} = im2gray(imread("Gt\Train\gt_salvia_training.png")) > 0;
 immagini_gt{3} = im2gray(imread("Gt\Train\gt_ulivo_training.png")) > 0;
+immagini_gt{4} = im2gray(imread("Gt\Train\gt_rosmarino_training.png")) > 0;
 
 immagini_test = cell(1, num_img_training);
 immagini_test{1} = imread("Test\oleandro_test.jpg");
 immagini_test{2} = imread("Test\salvia_test.jpg");
 immagini_test{3} = imread("Test\ulivo_test.jpg");
+immagini_test{4} = imread("Test\rosmarino_test.jpg");
 
 immagini_gt_test = cell(1, num_img_training);
 immagini_gt_test{1} = im2gray(imread("Gt\Test\gt_oleandro_test.png")) > 0;
 immagini_gt_test{2} = im2gray(imread("Gt\Test\gt_salvia_test.png")) > 0;
 immagini_gt_test{3} = im2gray(imread("Gt\Test\gt_ulivo_test.png")) > 0;
+immagini_gt_test{4} = im2gray(imread("Gt\Test\gt_rosmarino_test.png")) > 0;
 
 for i = 1:num_img_training
     immagini_tr{i} = imresize(immagini_tr{i}, target_size);
@@ -36,6 +40,7 @@ end
 % Creo cell array per contenere le feature di ogni immagine
 var_loc = cell(num_img_training, 1);
 col_loc = cell(num_img_training, 1);
+sat_loc = cell(num_img_training, 1);
 train_labels = cell(num_img_training, 1);
 
 for i = 1:num_img_training
@@ -44,38 +49,43 @@ for i = 1:num_img_training
     
     var = compute_local_var(im2double(rgb2gray(im)), finestra);
     col = compute_local_col(im, finestra);
-    %% normalizzazione features??
+    sat = compute_local_saturation(im, finestra);
     
     % Salvo le feature come vettori colonna per ogni immagine
     var_loc{i} = var(:);
+    sat_loc{i} = sat(:);
     col_loc{i} = col(:);
     train_labels{i} = gt(:);
 end
 
 % Concateno tutte le feature e labels
 X_var = cell2mat(var_loc);
+X_sat = cell2mat(sat_loc);
 X_col = cell2mat(col_loc);
 Y = cell2mat(train_labels);
 
 % Combino le due feature
-X = [X_var, X_col];
+X = [X_var, X_sat, X_col];
 
 % Creo il modello kNN
-C = fitcknn(X, Y, 'NumNeighbors', 5);
+C = fitcknn(X, Y, 'NumNeighbors', 11);
 
 % Calcolo le performance sul test-set
 for i = 1:num_img_training
     test_var = compute_local_var(im2double(rgb2gray(immagini_test{i})), finestra);
+    test_sat = compute_local_saturation(immagini_test{i}, finestra);
     test_col = compute_local_col(immagini_test{i}, finestra);
     
     test_var_vec = test_var(:);
+    test_sat_vec = test_sat(:);
     test_col_vec = test_col(:);
     
-    test_X = [test_var_vec, test_col_vec];
+    test_X = [test_var_vec, test_sat_vec, test_col_vec];
     
     pred_labels = predict(C, test_X);
     
     pred_image = reshape(pred_labels, target_size);
+
     
     % Visualizzo i risultati
     figure;
