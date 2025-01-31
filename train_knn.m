@@ -3,7 +3,7 @@ close all;
 
 num_img_training = 4;
 target_size = [1064, 1064, 3]; % Specifico i 3 canali per immagini RGB
-finestra = 7; % scelta empiricamente
+finestra = 11; % scelta empiricamente
 
 % Preallocazione delle matrici
 immagini_tr = zeros([target_size, num_img_training], 'uint8');
