@@ -1,8 +1,16 @@
 clear;
 close all;
 
-im = imread("1.jpg");
+im = imread("Training\oleandro_training.jpg");
 leaf = localize_leaf(im);
+figure, imshow(leaf);
+labels = bwlabel(leaf);
+num_comp_conn = max(max(labels));
+for i = 1:num_comp_conn
+
+end
+figure, imagesc(labels), axis image, colorbar;
+
 
 %[mag, phase] = imgaborfilt(im2gray(im), 4, 90);
 %im_hsv = rgb2hsv(im);
@@ -17,4 +25,3 @@ leaf = localize_leaf(im);
 %figure, imshow(mag, []);
 %figure, imshow(sat);
 %figure, imshow(compute_lbp(im));
-figure, imshow(leaf);

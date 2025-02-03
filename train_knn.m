@@ -1,7 +1,7 @@
 clear;
 close all;
 
-num_img_training = 4;
+num_img_training = 5;
 target_size = [1064, 1064, 3]; % Specifico i 3 canali per immagini RGB
 finestra = 11; % scelta empiricamente
 
@@ -16,11 +16,13 @@ immagini_tr(:,:,:,1) = imresize(imread("Training/oleandro_training.jpg"), target
 immagini_tr(:,:,:,2) = imresize(imread("Training/salvia_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,3) = imresize(imread("Training/ulivo_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,4) = imresize(imread("Training/rosmarino_training.jpg"), target_size(1:2));
+immagini_tr(:,:,:,5) = imresize(imread("Training/prezzemolo_training.jpg"), target_size(1:2));
 
 immagini_gt(:,:,1) = imresize(im2gray(imread("Gt/Train/gt_oleandro_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,2) = imresize(im2gray(imread("Gt/Train/gt_salvia_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,3) = imresize(im2gray(imread("Gt/Train/gt_ulivo_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,4) = imresize(im2gray(imread("Gt/Train/gt_rosmarino_training.png")) > 0, target_size(1:2));
+immagini_gt(:,:,5) = imresize(im2gray(imread("Gt/Train/gt_prezzemolo_training.png")) > 0, target_size(1:2));
 
 % Prealloco le feature e le label
 all_features = [];
