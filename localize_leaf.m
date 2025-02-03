@@ -3,7 +3,7 @@ function img_bin = localize_leaf(image)
     
     % Preprocess
     %[~, ~, canali] = size(image);
-    image = imresize(image, 0.25);
+    
     %image = medfilt3(image, [5 5 5]);
     
     features = compute_all_features(image, finestra);

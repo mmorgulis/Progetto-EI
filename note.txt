@@ -1,1 +1,3 @@
 Per le features si potrebbe aggiungere una con canny
+
+Supposizioni effettuate:

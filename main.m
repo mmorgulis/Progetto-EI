@@ -2,26 +2,27 @@ clear;
 close all;
 
 im = imread("Training\oleandro_training.jpg");
+im = imresize(im, 0.25);
 leaf = localize_leaf(im);
-figure, imshow(leaf);
+%figure, imshow(leaf);
+
 labels = bwlabel(leaf);
-num_comp_conn = max(max(labels));
+area = regionprops(labels, 'Area');
+filter = find([area.Area] >= 100);
+labels_filtered = ismember(labels, filter);
+labels_final = bwlabel(labels_filtered);
+num_comp_conn = max(max(labels_final));
+%figure, imagesc(labels_final), axis image, colorbar;
+
+
 for i = 1:num_comp_conn
-
+    foglia_bin = labels_final == i;
+    foglia_bin_3d = repmat(foglia_bin, [1 1 3]);
+    foglia_rgb = im .* uint8(foglia_bin_3d);
+    %figure, imshow(foglia_rgb);
+    im_class = classificate_leaf(im, foglia_rgb);
+    % im ha la scritta con la classe di appartenenza
+    
 end
-figure, imagesc(labels), axis image, colorbar;
+figure, imshow(im_class);
 
-
-%[mag, phase] = imgaborfilt(im2gray(im), 4, 90);
-%im_hsv = rgb2hsv(im);
-%im_yc = rgb2ycbcr(im);
-%sat = im_hsv(:, :, 2);
-%y = im_yc(:, :, 1);
-%cedd = compute_CEDD(im);
-%lbp = compute_lbp(im);
-%leafs = localize_leaf(im);
-
-%figure, imshow(y);
-%figure, imshow(mag, []);
-%figure, imshow(sat);
-%figure, imshow(compute_lbp(im));
