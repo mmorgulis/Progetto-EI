@@ -1,7 +1,7 @@
 clear;
 close all;
 
-im = imread("Training\oleandro_training.jpg");
+im = imread("Test\prezzemolo_test.jpg");
 im = imresize(im, 0.25);
 leaf = localize_leaf(im);
 %figure, imshow(leaf);
@@ -20,9 +20,9 @@ for i = 1:num_comp_conn
     foglia_bin_3d = repmat(foglia_bin, [1 1 3]);
     foglia_rgb = im .* uint8(foglia_bin_3d);
     %figure, imshow(foglia_rgb);
-    im_class = classificate_leaf(im, foglia_rgb);
+    compute_shape(foglia_rgb);
     % im ha la scritta con la classe di appartenenza
     
 end
-figure, imshow(im_class);
+%figure, imshow(im_class);
 

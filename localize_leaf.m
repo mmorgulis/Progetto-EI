@@ -6,7 +6,7 @@ function img_bin = localize_leaf(image)
     
     %image = medfilt3(image, [5 5 5]);
     
-    features = compute_all_features(image, finestra);
+    features = compute_all_loc_features(image, finestra);
     [r, c, num_features] = size(features);
     features_reshaped = reshape(features, r * c, num_features);
     
