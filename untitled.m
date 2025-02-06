@@ -1,18 +1,39 @@
 %function ShapeDescriptor = compute_shape(im)
     clear;
     close all;
-    im = imread("Test\prezzemolo_test.jpg");
+    load("data.mat");
+    im = imread("Test\alloro_test.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
     %figure, imshow(leaf);
     
+    wavelength = 4;
+    orientation = 0;
+    g = gabor(wavelength, orientation);
+    gaborMag = imgaborfilt(im2gray(im), g);
+    gaborFeature = mean(gaborMag(:));
+
+    glcm = graycomatrix(im2gray(im), 'Offset', [0 1]);
+    s = graycoprops(glcm, {'Contrast', 'Correlation', 'Energy', 'Homogeneity'});
+    contr = s.Contrast;
+    corr = s.Correlation;
+    en = s.Energy;
+    h = s.Homogeneity;
+
+    %lbpFeatures = extractLBPFeatures(im2gray(im), 'CellSize', [32 32]);
+
+    col_m = mean(mean(mean(im)));
+    im_hsv = rgb2hsv(im);
+    sat_media = mean(mean(im_hsv(:,:,2)));
+
     labels = bwlabel(leaf);
     area = regionprops(labels, 'Area');
-    filter = find([area.Area] >= 100);
+    filter = find([area.Area] >= 400);
     labels_filtered = ismember(labels, filter);
     labels_final = bwlabel(labels_filtered);
     num_comp_conn = max(max(labels_final));
-    %figure, imagesc(labels_final), axis image, colorbar;
+    figure, imagesc(labels_final), axis image, colorbar;
+    %figure, imagesc(labels_final == 1), axis image, colorbar;
 
 
     for i = 1:1

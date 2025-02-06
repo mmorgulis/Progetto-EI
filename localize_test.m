@@ -2,20 +2,7 @@ clear;
 close all;
 
 load("data.mat");   
-
-immagini_test(:,:,:,1) = imresize(imread("Test/oleandro_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,2) = imresize(imread("Test/salvia_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,3) = imresize(imread("Test/ulivo_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,4) = imresize(imread("Test/rosmarino_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,5) = imresize(imread("Test/prezzemolo_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,6) = imresize(imread("Test/edera_test.jpg"), target_size(1:2));
-
-immagini_gt_test(:,:,1) = imresize(im2gray(imread("Gt/Test/gt_oleandro_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,2) = imresize(im2gray(imread("Gt/Test/gt_salvia_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,3) = imresize(im2gray(imread("Gt/Test/gt_ulivo_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,4) = imresize(im2gray(imread("Gt/Test/gt_rosmarino_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,5) = imresize(im2gray(imread("Gt/Test/gt_prezzemolo_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,6) = imresize(im2gray(imread("Gt/Test/gt_edera_test.png")) > 0, target_size(1:2));
+load("im_test.mat");
 
 % Calcolo le performance sul test-set
 test_all_features = [];
@@ -32,7 +19,6 @@ for i = 1:num_img_training
     % Post Processing
     pred_image = medfilt2(pred_image, [9 9]);
     pred_image = imfill(pred_image, "holes"); % slide
-    
     
     gt_logical = logical(immagini_gt_test(:,:,i));
     pred_logical = logical(pred_image);

@@ -1,17 +1,10 @@
 clear;
 close all;
 
-num_img_training = 6;
-target_size = [1064, 1064, 3]; 
-immagini_tr = zeros([target_size, num_img_training], 'uint8');
+load("data.mat"); 
+load("im_training.mat");
 
 [train_labels] = read(); % leggo file delle etichette
-immagini_tr(:,:,:,1) = imresize(imread("Training/oleandro_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,2) = imresize(imread("Training/salvia_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,3) = imresize(imread("Training/ulivo_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,4) = imresize(imread("Training/rosmarino_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,5) = imresize(imread("Training/prezzemolo_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,6) = imresize(imread("Training/edera_training.jpg"), target_size(1:2));
 
 features = [];
 labels = [];
@@ -22,7 +15,7 @@ for i = 1:num_img_training
     leaf = localize_leaf(im);
     leaf_labels = bwlabel(leaf);
     area = regionprops(leaf_labels, 'Area');
-    filter = find([area.Area] >= 100); % le foglie hanno area maggiore
+    filter = find([area.Area] >= 400); % le foglie hanno area maggiore
     labels_filtered = ismember(leaf_labels, filter);
     labels_final = bwlabel(labels_filtered);
     num_comp_conn = max(max(labels_final));
@@ -30,6 +23,7 @@ for i = 1:num_img_training
     % Le componenti connesse devono essere 14, cioè il numero delle
     % foglie di train per immagine
     if (num_comp_conn ~= 14)
+        figure, imagesc(labels_final), axis image, colorbar;
         error("Errore numero componenti connesse");
     end
     
@@ -51,13 +45,7 @@ Y = labels;
 Cl = fitcknn(X, Y, 'NumNeighbors', 7);
 
 % TEST CLASSIFICATORE
-immagini_test = zeros([target_size, num_img_training], 'uint8');
-immagini_test(:,:,:,1) = imresize(imread("Test/oleandro_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,2) = imresize(imread("Test/salvia_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,3) = imresize(imread("Test/ulivo_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,4) = imresize(imread("Test/rosmarino_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,5) = imresize(imread("Test/prezzemolo_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,6) = imresize(imread("Test/edera_test.jpg"), target_size(1:2));
+load("im_test.mat");
 
 features_test = [];
 test_labels = [];
@@ -72,6 +60,7 @@ for i = 1:num_img_training
     num_comp_conn = max(max(labels_final));
 
     if (num_comp_conn ~= 6)
+        figure, imagesc(labels_final), axis image, colorbar;
         error("Errore numero componenti connesse");
     end
     
@@ -103,4 +92,4 @@ title("Test");
 fprintf('Train Accuracy: %f\n', cm_train.accuracy);
 fprintf('Test Accuracy: %f\n', cm_test.accuracy);
 
-save("data2.mat", "Cl");
+save("classificator.mat", "Cl");
