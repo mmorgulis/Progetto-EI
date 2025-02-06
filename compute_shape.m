@@ -10,7 +10,6 @@ function ShapeDescriptor = compute_shape(foglia_rgb)
         lato_maggiore = stats.MajorAxisLength;
         lato_minore = stats.MinorAxisLength;
       
-
         ratio = lato_minore / lato_maggiore;
         eccentricita = sqrt(1 - (ratio * ratio));
         circolarita = (4 * pi * area) / (perimetro * perimetro);
@@ -22,7 +21,6 @@ function ShapeDescriptor = compute_shape(foglia_rgb)
         ShapeDescriptor = [ratio eccentricita circolarita ...
              rettangolarita g s ab solid];
        
-        
-    end
+end
     
 

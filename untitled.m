@@ -2,10 +2,17 @@
     clear;
     close all;
     load("data.mat");
-    im = imread("Test\alloro_test.jpg");
+    im = imread("Test\oleandro_test.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
     %figure, imshow(leaf);
+    
+    edges_c = edge(im2gray(im), "canny");
+    media_edge_c = mean(mean(edges_c));
+    edges_s = edge(im2gray(im), "sobel");
+    media_edge_s = mean(mean(edges_s));
+    figure, imshow(edges_c);
+    figure, imshow(edges_s);
     
     wavelength = 4;
     orientation = 0;

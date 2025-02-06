@@ -2,7 +2,7 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     % Colore medio
     col_medio = mean(mean(mean(foglia_rgb)));
     
-    % Sature media
+    % Saturazione media
     foglia_hsv = rgb2hsv(foglia_rgb);
     sat_media = mean(foglia_hsv(:,:,1));
 
@@ -21,9 +21,14 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     corr = s.Correlation;
     en = s.Energy;
     h = s.Homogeneity;
+    
+    foglia_vett = medfilt2(im2gray(foglia_rgb));
+    edges_c = edge(im2gray(foglia_vett), "canny");
+    media_edge_c = mean(mean(edges_c));
+    
 
     ValVector = [col_medio sat_media gaborFeature entropyFeature ...
-        contr corr en h];
+        contr corr en h media_edge_c];
 
 end
 
