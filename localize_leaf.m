@@ -1,5 +1,5 @@
 function img_bin = localize_leaf(image)
-    load("data.mat");
+    load("locator.mat");
     
     % Preprocess
     %[~, ~, canali] = size(image);

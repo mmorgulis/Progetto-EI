@@ -1,2 +1,0 @@
-Richiede Wavelet Toolbox per la funzione wfusmat
-Signal processing toolbox per gabor

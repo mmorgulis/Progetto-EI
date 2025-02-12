@@ -18,6 +18,7 @@ function ShapeDescriptor = compute_shape(foglia_rgb)
         s = perimetro / (lato_minore + lato_maggiore);
         ab = area / a_b_b;
         solid = stats.Solidity;
+        
         ShapeDescriptor = [ratio eccentricita circolarita ...
              rettangolarita g s ab solid];
        

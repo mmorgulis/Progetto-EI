@@ -1,7 +1,7 @@
 clear;
 close all;
 
-load("data.mat"); 
+load("locator.mat"); 
 load("im_training.mat");
 
 [train_labels] = read(); % leggo file delle etichette

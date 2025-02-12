@@ -1,7 +1,7 @@
 clear;
 close all;
 
-load("data.mat");   
+load("locator.mat");   
 load("im_test.mat");
 
 % Calcolo le performance sul test-set

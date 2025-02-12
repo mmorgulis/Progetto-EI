@@ -1,11 +1,15 @@
 %function ShapeDescriptor = compute_shape(im)
     clear;
     close all;
-    load("data.mat");
+    load("locator.mat");
     im = imread("Test\oleandro_test.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
     %figure, imshow(leaf);
+    
+    % lbp - estrazione e riduzione a 3 features
+    lbp = extractLBPFeatures(im2gray(im), 'CellSize', [128 128], 'NumNeighbors', 4);
+    texture_lbp = [mean(lbp) std(lbp) max(lbp)];  % 3 caratteristiche statistiche
     
     edges_c = edge(im2gray(im), "canny");
     media_edge_c = mean(mean(edges_c));

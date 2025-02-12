@@ -1,4 +1,9 @@
-function [ValVector] = compute_leaf_val(foglia_rgb)
+clear;
+close all;
+
+im = imread("Test\oleandro_test.jpg");
+foglia_rgb = imresize(im, 0.25);
+
     % Colore medio
     col_medio = mean(mean(mean(foglia_rgb)));
     
@@ -30,14 +35,13 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     edges_c = edge(im2gray(foglia_vett), "canny");
     media_edge_c = mean(mean(edges_c));
     
-    % lbp con PCA
-    % lbp con riduzione tramite reshape e mean
+   % lbp - estrazione e riduzione a 3 features
     lbp = extractLBPFeatures(im2gray(foglia_rgb), 'CellSize', [128 128], 'NumNeighbors', 4);
-    texture_lbp = mean(reshape(lbp, [], 10), 1);  % Riduce a 5 features
+    texture_lbp = [mean(lbp) std(lbp) max(lbp)];  % 3 caratteristiche statistiche
     
 
     ValVector = [col_medio sat_media gaborFeature entropyFeature ...
         contr corr en h media_edge_c texture_lbp];
 
-end
+
 

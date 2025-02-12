@@ -8,7 +8,7 @@ leaf = localize_leaf(im);
 
 labels = bwlabel(leaf);
 area = regionprops(labels, 'Area');
-filter = find([area.Area] >= 100);
+filter = find([area.Area] >= 400);
 labels_filtered = ismember(labels, filter);
 labels_final = bwlabel(labels_filtered);
 num_comp_conn = max(max(labels_final));
