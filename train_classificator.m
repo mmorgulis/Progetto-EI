@@ -39,6 +39,8 @@ for i = 1:num_img_training
     end
 end
 
+%norm_features = normalize_feature(features);
+
 X = features;
 Y = labels;
 
@@ -75,6 +77,8 @@ for i = 1:num_img_training
     end
 end
 
+%norm_features_test = normalize_feature(features_test);
+
 predicted_train = predict(Cl, X);
 predicted_test = predict(Cl, features_test);
 
@@ -83,11 +87,11 @@ cm_test = confmat(test_labels, predicted_test);
 
 figure(1);
 show_confmat(cm_train.cm_raw, cm_train.labels);
-title("Train");
+title("Recall");
 
 figure(2);
 show_confmat(cm_test.cm_raw, cm_test.labels);
-title("Test");
+title("Precision");
 
 fprintf('Train Accuracy: %f\n', cm_train.accuracy);
 fprintf('Test Accuracy: %f\n', cm_test.accuracy);

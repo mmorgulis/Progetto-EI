@@ -15,7 +15,7 @@ immagini_tr(:,:,:,6) = imresize(imread("Training/edera_training.jpg"), target_si
 immagini_tr(:,:,:,7) = imresize(imread("Training/alloro_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,8) = imresize(imread("Training/quercia_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,9) = imresize(imread("Training/lauroceraso_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,10) = imresize(imread("Training/lauroceraso_training.jpg"), target_size(1:2));
+immagini_tr(:,:,:,10) = imresize(imread("Training/trifoglio_training.jpg"), target_size(1:2));
 
 immagini_gt(:,:,1) = imresize(im2gray(imread("Gt/Train/gt_oleandro_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,2) = imresize(im2gray(imread("Gt/Train/gt_salvia_training.png")) > 0, target_size(1:2));
