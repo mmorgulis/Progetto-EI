@@ -8,7 +8,7 @@ immagini_test = zeros([target_size, num_img_training], 'uint8');
 immagini_gt_test = false([target_size(1:2), num_img_training]);
 
 immagini_test(:,:,:,1) = imresize(imread("Test/oleandro_test.jpg"), target_size(1:2));
-immagini_test(:,:,:,2) = imresize(imread("Test/salvia_test.jpg"), target_size(1:2));
+immagini_test(:,:,:,2) = imresize(imread("Test/ciclamino_test.jpg"), target_size(1:2));
 immagini_test(:,:,:,3) = imresize(imread("Test/ulivo_test.jpg"), target_size(1:2));
 immagini_test(:,:,:,4) = imresize(imread("Test/rosmarino_test.jpg"), target_size(1:2));
 immagini_test(:,:,:,5) = imresize(imread("Test/prezzemolo_test.jpg"), target_size(1:2));
@@ -19,7 +19,7 @@ immagini_test(:,:,:,9) = imresize(imread("Test/lauroceraso_test.jpg"), target_si
 immagini_test(:,:,:,10) = imresize(imread("Test/trifoglio_test.jpg"), target_size(1:2));
 
 immagini_gt_test(:,:,1) = imresize(im2gray(imread("Gt/Test/gt_oleandro_test.png")) > 0, target_size(1:2));
-immagini_gt_test(:,:,2) = imresize(im2gray(imread("Gt/Test/gt_salvia_test.png")) > 0, target_size(1:2));
+immagini_gt_test(:,:,2) = imresize(im2gray(imread("Gt/Test/gt_ciclamino_test.png")) > 0, target_size(1:2));
 immagini_gt_test(:,:,3) = imresize(im2gray(imread("Gt/Test/gt_ulivo_test.png")) > 0, target_size(1:2));
 immagini_gt_test(:,:,4) = imresize(im2gray(imread("Gt/Test/gt_rosmarino_test.png")) > 0, target_size(1:2));
 immagini_gt_test(:,:,5) = imresize(im2gray(imread("Gt/Test/gt_prezzemolo_test.png")) > 0, target_size(1:2));

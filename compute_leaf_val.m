@@ -1,5 +1,4 @@
 function [ValVector] = compute_leaf_val(foglia_rgb)
-    % Converti in HSV e gray una volta sola
     foglia_hsv = rgb2hsv(foglia_rgb);
     gray_img = im2gray(foglia_rgb);
     
@@ -13,33 +12,32 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     
     % Gabor con orientazioni principali per texture
     gaborFeatures = [];
-    wavelength = 8;  % Una scala più grande per catturare pattern globali
+    wavelength = 8; 
     orientations = [0 90];  % Solo orientazioni principali
     for theta = orientations
         g = gabor(wavelength, theta);
         gaborMag = imgaborfilt(gray_img, g);
-        % Prendi solo statistiche robuste
         gaborFeatures = [gaborFeatures, median(gaborMag(:))];
     end
     
-    % GLCM con statistiche principali
+    % GLCM
     glcm = graycomatrix(gray_img, 'Offset', [0 1; -1 0]);  % Solo orizzontale e verticale
     stats = graycoprops(glcm, {'Contrast', 'Correlation'});
     % Media delle direzioni per robustezza
     contrast = mean([stats.Contrast]);
     correlation = mean([stats.Correlation]);
 
-    % LBP con parametri ottimizzati per foglie
-    lbp = extractLBPFeatures(gray_img, 'CellSize', [64 64], ...  % Celle più grandi
+    % LBP
+    lbp = extractLBPFeatures(gray_img, 'CellSize', [64 64], ...  
                             'NumNeighbors', 8, 'Radius', 1);
-    % Prendi solo i momenti principali
+    % Prendo solo caratteristiche statistiche
     lbp_mean = mean(lbp);
     lbp_std = std(lbp);
     
-    % Entropia globale (misura della complessità della texture)
+    % Entropia globale
     entropy_val = entropy(gray_img);
     
-    % Deviazione standard locale (variazioni locali)
+    % Deviazione standard locale
     local_std = std2(entropyfilt(gray_img));
     
     % Concatenazione delle features 

@@ -7,7 +7,7 @@ immagini_tr = zeros([target_size, num_img_training], 'uint8');
 immagini_gt = false([target_size(1:2), num_img_training]);
 
 immagini_tr(:,:,:,1) = imresize(imread("Training/oleandro_training.jpg"), target_size(1:2));
-immagini_tr(:,:,:,2) = imresize(imread("Training/salvia_training.jpg"), target_size(1:2));
+immagini_tr(:,:,:,2) = imresize(imread("Training/ciclamino_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,3) = imresize(imread("Training/ulivo_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,4) = imresize(imread("Training/rosmarino_training.jpg"), target_size(1:2));
 immagini_tr(:,:,:,5) = imresize(imread("Training/prezzemolo_training.jpg"), target_size(1:2));
@@ -18,7 +18,7 @@ immagini_tr(:,:,:,9) = imresize(imread("Training/lauroceraso_training.jpg"), tar
 immagini_tr(:,:,:,10) = imresize(imread("Training/trifoglio_training.jpg"), target_size(1:2));
 
 immagini_gt(:,:,1) = imresize(im2gray(imread("Gt/Train/gt_oleandro_training.png")) > 0, target_size(1:2));
-immagini_gt(:,:,2) = imresize(im2gray(imread("Gt/Train/gt_salvia_training.png")) > 0, target_size(1:2));
+immagini_gt(:,:,2) = imresize(im2gray(imread("Gt/Train/gt_ciclamino_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,3) = imresize(im2gray(imread("Gt/Train/gt_ulivo_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,4) = imresize(im2gray(imread("Gt/Train/gt_rosmarino_training.png")) > 0, target_size(1:2));
 immagini_gt(:,:,5) = imresize(im2gray(imread("Gt/Train/gt_prezzemolo_training.png")) > 0, target_size(1:2));
