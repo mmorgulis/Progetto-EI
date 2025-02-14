@@ -2,8 +2,8 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     foglia_hsv = rgb2hsv(foglia_rgb);
     gray_img = im2gray(foglia_rgb);
     
-    % Media di Hue e Saturation 
-    h_mean = mean(foglia_hsv(:,:,1), 'all', 'omitnan');
+    % Media di Hue (resistente a illuminazione variabile) e Saturation 
+    h_mean = mean(foglia_hsv(:,:,1), 'all', 'omitnan'); 
     s_mean = mean(foglia_hsv(:,:,2), 'all', 'omitnan');
     
     % Rapporto tra canali verde/rosso 
@@ -30,9 +30,8 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     % LBP
     lbp = extractLBPFeatures(gray_img, 'CellSize', [64 64], ...  
                             'NumNeighbors', 8, 'Radius', 1);
-    % Prendo solo caratteristiche statistiche
+    % Prendo solo media
     lbp_mean = mean(lbp);
-    lbp_std = std(lbp);
     
     % Entropia globale
     entropy_val = entropy(gray_img);
@@ -42,9 +41,9 @@ function [ValVector] = compute_leaf_val(foglia_rgb)
     
     % Concatenazione delle features 
     ValVector = [h_mean, s_mean, gr_ratio, ...        % 3 features di colore
-                gaborFeatures, ...                     % 2 features di orientazione
+                gaborFeatures, ...                     % 2 features gabor
                 contrast, correlation, ...             % 2 features GLCM
-                lbp_mean, lbp_std, ...                % 2 features LBP
+                lbp_mean, ...                           % 1 features LBP
                 entropy_val, local_std];              % 2 features di omogeneità
     
 end

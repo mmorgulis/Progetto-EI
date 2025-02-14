@@ -1,26 +1,12 @@
 clear;
 close all;
 
-% Mappa 
-foglie = containers.Map('KeyType', 'double', 'ValueType', 'char');
-foglie(1) = 'oleandro';
-foglie(2) = 'ciclamino';
-foglie(3) = 'ulivo';
-foglie(4) = 'rosmarino';
-foglie(5) = 'prezzemolo';
-foglie(6) = 'edera';
-foglie(7) = 'alloro';
-foglie(8) = 'quercia';
-foglie(9) = 'lauroceraso';
-foglie(10) = 'trifoglio';
-foglie(11) = 'unknown';
-
 % Carico modelli
 load("locator.mat");
 load("classificator.mat");
 
 % Carico immagine
-im = imread("11.jpg");
+im = imread("Test/trifoglio_test.jpg");
 composizione_foglie = imresize(im, 0.25);
 
 % Pre-processing per togliere rumore
@@ -57,18 +43,18 @@ for i = 1:num_comp_conn
 
     % Valuto se è unknown
     % certezza è la probabilità assegnata per ogni classe, quindi ne
-    % estraggo il max, certezza empirica scelta maggiore dell'80%
-    if (max(certezza) < 0.8)
-        tipo_foglia = 11;
+    % estraggo il max, certezza empirica scelta maggiore dell'50%
+    if (max(certezza) < 0.5)
+        tipo_foglia = 'unknown';
     end
 
-    fprintf("%d \n", max(certezza));
+    fprintf("%f \n", max(certezza));
 
     % Ottengo il centroide della foglia corrente
     centroid = stats_final(i).Centroid;
     
     % Scrivo il testo nell'immagine
-    text(centroid(1), centroid(2), foglie(tipo_foglia), ...
+    text(centroid(1), centroid(2), tipo_foglia, ...
         'Color', 'red', ...
         'FontSize', 12, ...
         'FontWeight', 'bold', ...

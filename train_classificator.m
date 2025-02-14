@@ -35,14 +35,13 @@ for i = 1:num_img_training
         features_foglia = compute_all_class_features(foglia_rgb);
         features_reshaped = reshape(features_foglia, 1, []);
         features = [features; features_reshaped];
-        labels = [labels; i];
     end
 end
 
 %norm_features = normalize_feature(features);
 
 X = features;
-Y = labels;
+Y = train_labels;
 
 Cl = fitcknn(X, Y, 'NumNeighbors', 7);
 

@@ -2,7 +2,7 @@
     clear;
     close all;
     load("locator.mat");
-    im = imread("Test\oleandro_test.jpg");
+    im = imread("Training\edera_training.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
     %figure, imshow(leaf);

@@ -3,7 +3,6 @@ close all;
 
 num_img_training = 10;
 target_size = [1064, 1064, 3];
-
 immagini_test = zeros([target_size, num_img_training], 'uint8');
 immagini_gt_test = false([target_size(1:2), num_img_training]);
 
