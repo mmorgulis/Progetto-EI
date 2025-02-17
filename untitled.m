@@ -2,7 +2,7 @@
     clear;
     close all;
     load("locator.mat");
-    im = imread("Training\edera_training.jpg");
+    im = imread("Training/Bianco/edera_training.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
     %figure, imshow(leaf);

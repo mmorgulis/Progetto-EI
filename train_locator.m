@@ -1,22 +1,33 @@
 clear;
 close all;
 
-load("im_training.mat"); 
+load("im_training.mat");
+load("im_training_oth.mat");
+
 finestra = 11; % scelta empiricamente
 
 % Prealloco le feature e le label
 all_features = [];
 all_labels = [];
 
-for i = 1:num_img_training
-    im = immagini_tr(:,:,:,i);
-    gt = immagini_gt(:,:,i);
+% Concateno le immagini lungo la quarta dimensione
+images_combined = cat(4, immagini_tr, immagini_sf);
+
+% Creo le ground truth ripetendo il pattern ogni 10 immagini
+gt_repeated = repmat(immagini_gt(:,:,1:10), [1, 1, 4]);
+gt_combined = cat(3, immagini_gt, gt_repeated);
+
+total_images = num_img_training + num_img_oth;
+
+for i = 1:total_images
+    curr_img = images_combined(:,:,:,i);
+    curr_gt = gt_combined(:,:,i);
     
-    features = compute_all_loc_features(im, finestra);
+    features = compute_all_loc_features(curr_img, finestra);
     [r, c, num_features] = size(features);
     features_reshaped = reshape(features, r * c, num_features);
     
-    labels_reshaped = gt(:);
+    labels_reshaped = curr_gt(:);
     
     all_features = [all_features; features_reshaped];
     all_labels = [all_labels; labels_reshaped];
@@ -28,4 +39,4 @@ Y = all_labels;
 % Creo e alleno il modello kNN
 C = fitcknn(X, Y, 'NumNeighbors', 7);
 
-save("locator.mat", "C", "finestra", "target_size", "num_img_training");
+save("locator.mat", "C", "finestra", "target_size", '-v7.3');

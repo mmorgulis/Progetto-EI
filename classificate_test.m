@@ -1,15 +1,23 @@
+clear;
+close all;
+
 % TEST CLASSIFICATORE
 load("im_test.mat");
 load("classificator.mat");
 
 features_test = [];
-test_labels = [];
+test_labels = read_te();
 for i = 1:num_img_training
-    im = immagini_test(:,:,:,i);
-    leaf = localize_leaf(im);
-    leaf_labels = bwlabel(leaf);
+    im_test = immagini_test(:,:,:,i);
+    gt_test = im2double(immagini_gt_test(:,:,i));
+
+    % Se non ho le gt
+    %leaf = localize_leaf(im_test);
+    %leaf_labels = bwlabel(leaf);
+
+    leaf_labels = bwlabel(gt_test);
     area = regionprops(leaf_labels, 'Area');
-    filter = find([area.Area] >= 100);
+    filter = find([area.Area] >= 300);
     labels_filtered = ismember(leaf_labels, filter);
     labels_final = bwlabel(labels_filtered);
     num_comp_conn = max(max(labels_final));
@@ -22,11 +30,10 @@ for i = 1:num_img_training
     for j = 1:num_comp_conn
         foglia_bin = labels_final == j;
         foglia_bin_3d = repmat(foglia_bin, [1 1 3]);
-        foglia_rgb = im .* uint8(foglia_bin_3d);
+        foglia_rgb = im_test .* uint8(foglia_bin_3d);
         features_test_foglia = compute_all_class_features(foglia_rgb);
         features_test_reshaped = reshape(features_test_foglia, 1, []);
         features_test = [features_test; features_test_reshaped];
-        test_labels = [test_labels; i];
     end
 end
 

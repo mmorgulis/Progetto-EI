@@ -6,7 +6,7 @@ load("locator.mat");
 load("classificator.mat");
 
 % Carico immagine
-im = imread("Test/trifoglio_test.jpg");
+im = imread("10.jpg");
 composizione_foglie = imresize(im, 0.25);
 
 % Pre-processing per togliere rumore

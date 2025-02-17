@@ -4,18 +4,23 @@ close all;
 load("locator.mat"); 
 load("im_training.mat");
 
-[train_labels] = read(); % leggo file delle etichette
+[train_labels] = read_tr(); % leggo file delle etichette
 
 features = [];
 labels = [];
+num_comp_conn = 14;
+
 % Per ogni img trovo le foglie con il localizzatore
 % e alleno il classificatore
 for i = 1:num_img_training
     im = immagini_tr(:,:,:,i);
-    leaf = localize_leaf(im);
-    leaf_labels = bwlabel(leaf);
+    gt = im2double(immagini_gt(:,:,i));
+    % Se non avessi le gt :
+    % leaf = localize_leaf(im);
+    % leaf_labels = bwlabel(leaf);
+    leaf_labels = bwlabel(gt);
     area = regionprops(leaf_labels, 'Area');
-    filter = find([area.Area] >= 400); % le foglie hanno area maggiore
+    filter = find([area.Area] >= 300); % potrebbe esserci del rumore
     labels_filtered = ismember(leaf_labels, filter);
     labels_final = bwlabel(labels_filtered);
     num_comp_conn = max(max(labels_final));
@@ -26,7 +31,7 @@ for i = 1:num_img_training
         figure, imagesc(labels_final), axis image, colorbar;
         error("Errore numero componenti connesse");
     end
-    
+
     % Per ogni componente connessa calcolo features
     for j = 1:num_comp_conn
         foglia_bin = labels_final == j;
