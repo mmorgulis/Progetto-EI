@@ -12,10 +12,7 @@ all_labels = [];
 
 % Concateno le immagini lungo la quarta dimensione
 images_combined = cat(4, immagini_tr, immagini_sf);
-
-% Creo le ground truth ripetendo il pattern ogni 10 immagini
-gt_repeated = repmat(immagini_gt(:,:,1:10), [1, 1, 4]);
-gt_combined = cat(3, immagini_gt, gt_repeated);
+gt_combined = cat(3, immagini_gt, immagini_gt_oth);
 
 total_images = num_img_training + num_img_oth;
 
@@ -35,8 +32,14 @@ end
 
 X = all_features;
 Y = all_labels;
-
+  
 % Creo e alleno il modello kNN
-C = fitcknn(X, Y, 'NumNeighbors', 7);
+C = fitcknn(X, Y, 'NumNeighbors', 5);
+
+
+% Se voglio un modello più veloce
+% C = fitctree(X, Y, ...
+%     'MaxNumSplits', 100, ...     % Limite profondità
+%     'PruneCriterion', 'error');
 
 save("locator.mat", "C", "finestra", "target_size", '-v7.3');

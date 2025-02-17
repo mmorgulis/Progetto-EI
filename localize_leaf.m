@@ -1,11 +1,6 @@
 function img_bin = localize_leaf(image)
     load("locator.mat");
     
-    % Preprocess
-    %[~, ~, canali] = size(image);
-    
-    %image = medfilt3(image);
-    
     features = compute_all_loc_features(image, finestra);
     [r, c, num_features] = size(features);
     features_reshaped = reshape(features, r * c, num_features);
@@ -14,10 +9,6 @@ function img_bin = localize_leaf(image)
     pred_labels = predict(C, features_reshaped);
     
     pred_image = reshape(pred_labels, [r, c]);
-    
-    % Post Processing
-    %pred_image = medfilt2(pred_image, [9 9]);
-    %pred_image = imfill(pred_image, "holes"); % slide
 
     img_bin = pred_image;
 
