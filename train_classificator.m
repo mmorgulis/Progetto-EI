@@ -50,6 +50,13 @@ Y = train_labels;
 
 Cl = fitcknn(X, Y, 'NumNeighbors', 7);
 
+% Stampa media classi nelle features
+for i = 1:18
+    for j = 1:10
+        fprintf("Classe 1: ec = %f, ci = %f, ", )
+    end
+end
+
 predicted_train = predict(Cl, X);
 cm_train = confmat(Y, predicted_train);
 figure(1);

@@ -2,7 +2,7 @@
     clear;
     close all;
     % load("locator.mat");
-    im = imread("Training/Bianco/ciclamino_training.jpg");
+    im = imread("Training\Bianco\edera_training.jpg");
     im = imresize(im, 0.25);
     % leaf = localize_leaf(im);
     %figure, imshow(leaf);
@@ -11,23 +11,16 @@
     sat = compute_sat(im);
 
     im_gray = im2gray(im);
-    finestra = 11;
-    % Crea un filtro di media normalizzato
-    media = fspecial('average', finestra);
-    % Calcola la media locale
-    media_var_locale = imfilter(im_gray(:, :), media, 'same');
-    % Calcola la media locale dei quadrati
-    media_var_locale_sq = imfilter(im_gray(:, :).^2, media, 'same'); 
-    % Calcola la varianza locale
-    varianza_locale = media_var_locale_sq - media_var_locale.^2;
-
+    finestra = 5;
+    
+    varianza_locale = compute_local_var(im_gray, finestra);
     [gabor, ~] = imgaborfilt(im_gray, 4, 90);
     entropy_local = entropyfilt(im_gray);
     
     
     figure, imagesc(col_medio), axis image, colorbar;
     figure, imshow(sat);
-    figure, imshow(varianza_locale);
+    figure, imshow(varianza_locale), colorbar;
     figure, imshow(gabor, []), colorbar;
     figure, imshow(entropy_local, []), colorbar;
     

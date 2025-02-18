@@ -23,14 +23,19 @@ Per allenare il localizzatore abbiamo usato diverse features sottoforma di masch
 * **Colore (media rgb)** 
 * **Entropia locale (finestra di deafault = 9)**
 * **Maschera di Gabor con wavelenght = 4 e orientamento = 90**
-.. dettagli su se passo img grigia, cosa tornano ecc
 
 ### Errori localizzazione
-Edera, Rosmarino Perchè? ...
+Le foglie più difficili da localizzare sono edera e rosmarino.
+Gli errori sull'edera sono dovuto al fatto che il colore e la texture della singola foglia è molto variabile, quindi in alcuni punti
+può confondere il localizzatore. Per quanto riguarda il rosmarino l'errore potrebbe essere dovuto alla sottigliezza della foglia e 
+alla qualità dell'immagine di test.
 
 ## Classificatore
-Cosa fa ..
-Features:
+Il classificatore predice le classi a cui ciascuna foglia appartiene. Per quanto riguarda il funzionamento inizialmente prende le 
+ground truth binarie delle foglie, estrae le singole foglie e per ognuna ne calcola le features.
+In particolare le features sono 18 e sono state scelte in modo da essere un set minimo e discriminante. Esse sono:
+* **Shape**:
+- 
 media valori nelle classi e spiego perché sono discriminanti
 
 

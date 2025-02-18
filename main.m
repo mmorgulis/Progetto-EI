@@ -6,7 +6,7 @@ load("locator.mat");
 load("classificator.mat");
 
 % Carico immagine
-im = imread("Test\");
+im = imread("5.jpg");
 composizione_foglie = imresize(im, 0.25);
 
 % Pre-processing per togliere rumore
@@ -22,7 +22,7 @@ filter = find([stats.Area] >= 300);
 labels_filtered = ismember(labels, filter);
 labels_final = bwlabel(labels_filtered);
 
-labels_final = imclose(labels_final, strel("disk", 9));
+%labels_final = imclose(labels_final, strel("disk", 6));
 
 num_comp_conn = max(max(labels_final));
 figure, imagesc(labels_final), axis image, colorbar;

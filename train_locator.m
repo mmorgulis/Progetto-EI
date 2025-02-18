@@ -4,7 +4,7 @@ close all;
 load("im_training.mat");
 load("im_training_oth.mat");
 
-finestra = 11; % scelta empiricamente
+finestra = 5; % scelta empiricamente
 
 % Prealloco le feature e le label
 all_features = [];

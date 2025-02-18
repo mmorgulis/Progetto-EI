@@ -1,7 +1,9 @@
 function img = compute_local_var(im_gray, finestra)
     % Calcolo varianza in una finestra specifica
     % con la formula Var(X)=E[X^2]−(E[X])^2
-
+    
+    % Converto img in double
+    im_gray = double(im_gray);
     % Crea un filtro di media normalizzato
     media = fspecial('average', finestra);
     % Calcola la media locale

@@ -1,4 +1,4 @@
-function [ValVector] = compute_leaf_val(foglia_rgb)
+    function [ValVector] = compute_leaf_val(foglia_rgb)
     foglia_hsv = rgb2hsv(foglia_rgb);
     gray_img = im2gray(foglia_rgb);
     
