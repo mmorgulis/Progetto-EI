@@ -1,6 +1,0 @@
-Aggiungo mediano all'inizio per togliere rumore
-Per le features si potrebbe aggiungere una con canny
-
-Slide su gabor, entropy e glcm
-
-Supposizioni effettuate:

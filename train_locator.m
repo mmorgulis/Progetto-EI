@@ -36,6 +36,7 @@ Y = all_labels;
 % Creo e alleno il modello kNN
 C = fitcknn(X, Y, 'NumNeighbors', 5);
 
+% C = TreeBagger(100, X, Y, 'Method', 'classification', 'MaxNumSplits', 100)
 
 % Se voglio un modello più veloce
 % C = fitctree(X, Y, ...
