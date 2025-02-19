@@ -12,10 +12,12 @@ all_labels = [];
 
 % Concateno le immagini lungo la quarta dimensione
 images_combined = cat(4, immagini_tr, immagini_sf);
+% Concateno gt lungo la 3 dimensione
 gt_combined = cat(3, immagini_gt, immagini_gt_oth);
 
 total_images = num_img_training + num_img_oth;
 
+% Per ogni img calcolo le features 
 for i = 1:total_images
     curr_img = images_combined(:,:,:,i);
     curr_gt = gt_combined(:,:,i);
@@ -36,9 +38,7 @@ Y = all_labels;
 % Creo e alleno il modello kNN
 C = fitcknn(X, Y, 'NumNeighbors', 5);
 
-% C = TreeBagger(100, X, Y, 'Method', 'classification', 'MaxNumSplits', 100)
-
-% Se voglio un modello più veloce
+% Se voglio un modello più veloce ma meno preciso
 % C = fitctree(X, Y, ...
 %     'MaxNumSplits', 100, ...     % Limite profondità
 %     'PruneCriterion', 'error');

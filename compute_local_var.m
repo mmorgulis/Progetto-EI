@@ -1,5 +1,5 @@
 function img = compute_local_var(im_gray, finestra)
-    % Calcolo varianza in una finestra specifica
+    % Calcolo varianza in una finestra locale
     % con la formula Var(X)=E[X^2]−(E[X])^2
     
     % Converto img in double

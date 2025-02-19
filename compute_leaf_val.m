@@ -39,11 +39,11 @@
     % Deviazione standard locale
     local_std = std2(entropyfilt(gray_img));
     
-    % Concatenazione delle features 
+    % Concateno features 
     ValVector = [h_mean, s_mean, gr_ratio, ...        % 3 features di colore
-                gaborFeatures, ...                     % 2 features gabor
-                contrast, correlation, ...             % 2 features GLCM
-                lbp_mean, ...                           % 1 features LBP
+                gaborFeatures, ...                    % 2 features gabor
+                contrast, correlation, ...            % 2 features GLCM
+                lbp_mean, ...                         % 1 features LBP
                 entropy_val, local_std];              % 2 features di omogeneità
     
 end

@@ -37,8 +37,6 @@ for i = 1:num_img_training
     end
 end
 
-%norm_features_test = normalize_feature(features_test);
-
 predicted_test = predict(Cl, features_test);
 
 cm_test = confmat(test_labels, predicted_test);

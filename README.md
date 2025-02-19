@@ -34,8 +34,22 @@ alla qualità dell'immagine di test.
 Il classificatore predice le classi a cui ciascuna foglia appartiene. Per quanto riguarda il funzionamento inizialmente prende le 
 ground truth binarie delle foglie, estrae le singole foglie e per ognuna ne calcola le features.
 In particolare le features sono 18 e sono state scelte in modo da essere un set minimo e discriminante. Esse sono:
-* **Shape**:
-- 
+* **Shape**
+    - ratio (lato nimore/lato maggiore)
+    - eccentricità \sqrt{1- ratio*ratio}
+    - circolarità
+    - rettangolarità
+    - perimetro / lato_maggiore
+    - perimetro / (lato maggiore + lato minore)
+    - area / area bounding box
+    - solidità
+* **Media hue**
+* **Media saturation**
+* **2 maschere gabor con orientazione diversa**
+* **Contrasto e Correlazione da glcm**
+* **Media lbp**
+* **Media entropia locale**
+* **Deviazione standard locali**
 media valori nelle classi e spiego perché sono discriminanti
 
 
