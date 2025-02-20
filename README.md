@@ -8,21 +8,23 @@
 ## Supposizioni:
 Il riconoscitore funziona bene su sfondi omogenei, su sfondi differenti (legno, tessuti ecc) ha performance basse in quanto non riesce a localizzare in modo corretto le foglie.
 Le foglie del dataset sono abbastanza diverse in quanto con poche foglie di training è molto difficile riconoscere foglie simili.
-Le ground truth sono state create tramite Photoshop, in particolare si sono create delle maschere binarie selezionando l'area delle foglie.
+Le ground truth sono state create tramite Photoshop, in particolare si sono create delle maschere binarie selezionando l'area delle foglie e separando il livello di sfondo con quello delle foglie.
 
 ## Dataset
 Il dataset contiene 10 classi di foglie (oleandro, ciclamino, ulivo, rosmarino, prezzemolo, edera, alloro, quercia, lauroceraso, trifoglio) e per ogni classe sono presenti un totale di 20 foglie, di cui 14 per il training e 6 per il testing.
 Per rendere il riconoscitore più robusto è stato addestrato anche con 5 sfondi diversi (tessuti e colori diversi).
 Le foglie sono state catturate da un telefono con risoluzione 3080 * 4096 px con il flash per togliere eventuali ombre.
+Sulle immagini è stata effettuata una resize a 1064 * 1064 per aumentare la velocità del localizzatore e classificatore.
 
 ## Localizzatore
 Si occupa di classificare se un pixel dell'immagine è sfondo oppure foglia.
-Per allenare il localizzatore abbiamo usato diverse features sottoforma di maschera dell'intera immagine di foglie, in particolare la features sono:
+Per allenare il localizzatore sono state usate diverse features sottoforma di maschera dell'intera immagine di foglie, in particolare la features sono:
 * **Varianza locale con finestra di 11**
 * **Saturazione**
 * **Colore (media rgb)** 
 * **Entropia locale (finestra di deafault = 9)**
 * **Maschera di Gabor con wavelenght = 4 e orientamento = 90**
+Riassumendo ogni pixel delle immagini di training è caratterizzato da 5 valori e il classificatore knn si è allenato su questi vettore 5-dimensionali per ogni punto.
 
 ### Errori localizzazione
 Le foglie più difficili da localizzare sono edera e rosmarino.
@@ -35,7 +37,7 @@ Il classificatore predice le classi a cui ciascuna foglia appartiene. Per quanto
 ground truth binarie delle foglie, estrae le singole foglie e per ognuna ne calcola le features.
 In particolare le features sono 18 e sono state scelte in modo da essere un set minimo e discriminante. Esse sono:
 * **Shape**
-    - ratio (lato nimore/lato maggiore)
+    - ratio (lato minore / lato maggiore)
     - eccentricità \sqrt{1- ratio*ratio}
     - circolarità
     - rettangolarità
@@ -50,7 +52,9 @@ In particolare le features sono 18 e sono state scelte in modo da essere un set 
 * **Media lbp**
 * **Media entropia locale**
 * **Deviazione standard locali**
-media valori nelle classi e spiego perché sono discriminanti
+
+Estraendo i valori medi delle classi si può notare che ogni classe ha valori diversi su queste features, quindi si può concludere che sono tutte discriminanti.
+Il classificatore utilizzato è un random forest (con parametri ottimizzati in base al dataset).
 
 
 ### Errori classificazione
