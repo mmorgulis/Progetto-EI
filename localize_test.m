@@ -17,7 +17,6 @@ for i = 1:num_img_training
     pred_image = reshape(pred_labels, [tr, tc]);
     
     % Post Processing
-    pred_image = medfilt2(pred_image, [9 9]);
     pred_image = imfill(pred_image, "holes"); % slide
     
     gt_logical = logical(immagini_gt_test(:,:,i));

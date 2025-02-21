@@ -2,11 +2,11 @@
     clear;
     close all;
     % load("locator.mat");
-    im = imread("Training\Bianco\quercia_training.jpg");
+    im = imread("Training\Bianco\salvia_training.jpg");
     im = imresize(im, 0.25);
     leaf = localize_leaf(im);
-    % leaf = localize_leaf(im);
-    %figure, imshow(leaf);
+    leaf = imfill(leaf, "holes");
+    figure, imshow(leaf);
 
     col_medio = mean(im, 3);
     sat = compute_sat(im);
@@ -18,7 +18,7 @@
     [gabor, ~] = imgaborfilt(im_gray, 4, 90);
     entropy_local = entropyfilt(im_gray);
     
-    figure, imagesc(col_medio), axis image, colorbar;
+    figure, imshow(col_medio), colorbar;
     figure, imshow(sat);
     figure, imshow(varianza_locale), colorbar;
     figure, imshow(gabor, []), colorbar;

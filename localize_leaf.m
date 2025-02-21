@@ -10,7 +10,7 @@ function img_bin = localize_leaf(image)
     
     pred_image = reshape(pred_labels, [r, c]);
 
-    img_bin = pred_image;
+    img_bin = imfill(pred_image, "holes");
 
 end
 

@@ -17,7 +17,7 @@
     for theta = orientations
         g = gabor(wavelength, theta);
         gaborMag = imgaborfilt(gray_img, g);
-        gaborFeatures = [gaborFeatures, median(gaborMag(:))];
+        gaborFeatures = [gaborFeatures, mean(gaborMag(:))];
     end
     
     % GLCM

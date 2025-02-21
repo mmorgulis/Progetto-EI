@@ -38,7 +38,7 @@ ground truth binarie delle foglie, estrae le singole foglie e per ognuna ne calc
 In particolare le features sono 18 e sono state scelte in modo da essere un set minimo e discriminante. Esse sono:
 * **Shape**
     - ratio (lato minore / lato maggiore)
-    - eccentricità \sqrt{1- ratio*ratio}
+    - eccentricità $$\sqrt{1- ratio*ratio}
     - circolarità
     - rettangolarità
     - perimetro / lato_maggiore
@@ -56,13 +56,12 @@ In particolare le features sono 18 e sono state scelte in modo da essere un set 
 Estraendo i valori medi delle classi si può notare che ogni classe ha valori diversi su queste features, quindi si può concludere che sono tutte discriminanti.
 Il classificatore utilizzato è un random forest (con parametri ottimizzati in base al dataset).
 
-
 ### Errori classificazione
+Gli errori dipendono dal random forest, ma in generale gli errori più comuni sono stati riscontrati sono tra foglie simili, in particolare tra ulivo e oleandro e tra edera/trifoglio/prezzemolo.
 
 ## Main
-Labeling, soglie ecc
+Innanzitutto lo script carica i modelli necessari per localizzazione e classificazione, successivamente localizza le foglie con la funzione localize_leaf e infine le classifica (facendo la predizione sul modello). Se la confidenza del random forest è inferiore al 40% la foglia viene classificata come unknown. Infine viene mostrata l'immagine iniziale con scritti sui centroidi delle foglie le classi previste.
 
-## Performance/Tempi
 
 
 
