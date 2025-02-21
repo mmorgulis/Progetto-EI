@@ -16,8 +16,8 @@
     orientations = [0 90];  % Solo orientazioni principali
     for theta = orientations
         g = gabor(wavelength, theta);
-        gaborMag = imgaborfilt(gray_img, g);
-        gaborFeatures = [gaborFeatures, mean(gaborMag(:))];
+        gaborM = imgaborfilt(gray_img, g);
+        gaborFeatures = [gaborFeatures, mean(gaborM(:))];
     end
     
     % GLCM

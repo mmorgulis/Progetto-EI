@@ -57,7 +57,7 @@ Estraendo i valori medi delle classi si può notare che ogni classe ha valori di
 Il classificatore utilizzato è un random forest (con parametri ottimizzati in base al dataset).
 
 ### Errori classificazione
-Gli errori dipendono dal random forest, ma in generale gli errori più comuni sono stati riscontrati sono tra foglie simili, in particolare tra ulivo e oleandro e tra edera/trifoglio/prezzemolo.
+Gli errori dipendono dal random forest, ma in generale gli errori più comuni sono stati riscontrati sono tra foglie simili, in particolare tra ulivo e oleandro e tra edera/trifoglio/prezzemolo. Le performance del classificatore variano in base al random forest, ma in generale la recall ha precisione di 99%/100% e la precision varia tra 85%/95% per una media di 90%.
 
 ## Main
 Innanzitutto lo script carica i modelli necessari per localizzazione e classificazione, successivamente localizza le foglie con la funzione localize_leaf e infine le classifica (facendo la predizione sul modello). Se la confidenza del random forest è inferiore al 40% la foglia viene classificata come unknown. Infine viene mostrata l'immagine iniziale con scritti sui centroidi delle foglie le classi previste.
