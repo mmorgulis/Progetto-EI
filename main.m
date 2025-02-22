@@ -8,8 +8,8 @@ load("classificator.mat");
 tipi_foglie = unique(Cl.ClassNames);
 
 % Carico immagine
-im = imread("Test\ulivo_test.jpg");
-composizione_foglie = imresize(im, target_size(1:2));
+im = imread("Img_Prova\3.jpg");
+composizione_foglie = imresize(im, target_size(1:2)); % mantengo misure di prima
 
 % Localizzo
 leafs = localize_leaf(composizione_foglie);
@@ -43,9 +43,9 @@ for i = 1:num_comp_conn
     % Valuto se è unknown
     % certezza è la probabilità assegnata per ogni classe, quindi ne
     % estraggo il max, certezza empirica scelta maggiore dell'45%
-    % if (max(certezza) < 0.50)
-    %     tipo_foglia = 'unknown';
-    % end
+    if (max(certezza) < 0.30)
+        tipo_foglia = 'unknown';
+    end
 
     fprintf("%f \n", max(certezza));
 

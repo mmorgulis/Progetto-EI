@@ -2,7 +2,7 @@ clear;
 close all;
 
 % Immagini con sfondi differenti per irrobustire locator
-num_img_oth = 6; 
+num_img_oth = 5; 
 target_size = [1064, 1064, 3];
 immagini_sf = zeros([target_size, num_img_oth], 'uint8');
 immagini_gt_oth = false([target_size(1:2), num_img_oth]);

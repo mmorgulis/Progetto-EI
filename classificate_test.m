@@ -27,6 +27,9 @@ for i = 1:num_img_training
         error("Errore numero componenti connesse");
     end
     
+    predicted_labels = strings(num_comp_conn, 1);
+    centroids = zeros(num_comp_conn, 2);
+    
     for j = 1:num_comp_conn
         foglia_bin = labels_final == j;
         foglia_bin_3d = repmat(foglia_bin, [1 1 3]);
@@ -34,7 +37,21 @@ for i = 1:num_img_training
         features_test_foglia = compute_all_class_features(foglia_rgb);
         features_test_reshaped = reshape(features_test_foglia, 1, []);
         features_test = [features_test; features_test_reshaped];
+        
+        predicted_labels(j) = predict(Cl, features_test_reshaped);
+        props = regionprops(foglia_bin, 'Centroid');
+        centroids(j, :) = props.Centroid;
     end
+    
+    % Mostra le immagini
+    figure;
+    imshow(im_test);
+    hold on;
+    for j = 1:num_comp_conn
+        text(centroids(j,1), centroids(j,2), predicted_labels(j), ...
+            'Color', 'red', 'FontSize', 14, 'FontWeight', 'bold');
+    end
+    hold off;
 end
 
 predicted_test = predict(Cl, features_test);
