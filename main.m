@@ -42,8 +42,8 @@ for i = 1:num_comp_conn
 
     % Valuto se è unknown
     % certezza è la probabilità assegnata per ogni classe, quindi ne
-    % estraggo il max, certezza empirica scelta maggiore dell'45%
-    if (max(certezza) < 0.30)
+    % estraggo il max, certezza scelta maggiore dell'45%
+    if (max(certezza) < 0.45)
         tipo_foglia = 'unknown';
     end
 
