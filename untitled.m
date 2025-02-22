@@ -1,28 +1,66 @@
 %function ShapeDescriptor = compute_shape(im)
     clear;
     close all;
-    % load("locator.mat");
-    im = imread("Training\Bianco\salvia_training.jpg");
-    im = imresize(im, 0.25);
+    load("locator.mat");
+    load("im_test.mat");
+    load("classificator.mat");
+    im = immagini_test(:,:,:,3);
+
+    %gt = im2double(immagini_gt_test(:,:,3));
+    % Se non ho le gt
     leaf = localize_leaf(im);
-    leaf = imfill(leaf, "holes");
-    figure, imshow(leaf);
+    gt = bwlabel(leaf);
 
-    col_medio = mean(im, 3);
-    sat = compute_sat(im);
+    leaf_labels = bwlabel(gt);
+    area = regionprops(leaf_labels, 'Area');
+    filter = find([area.Area] >= 300); % potrebbe esserci del rumore
+    labels_filtered = ismember(leaf_labels, filter);
+    labels_final = bwlabel(labels_filtered);
+    stats_final = regionprops(labels_final, 'Centroid');
+    num_comp_conn = max(max(labels_final));
 
-    im_gray = im2gray(im);
-    finestra = 5;
+    figure;
+    imshow(im);
+    hold on;
+    for j = 1:num_comp_conn
+        foglia_bin = labels_final == j;
+        foglia_bin_3d = repmat(foglia_bin, [1 1 3]);
+        foglia_rgb = im .* uint8(foglia_bin_3d);
+        
+        features_foglia = compute_all_class_features(foglia_rgb);
+        features_reshaped = reshape(features_foglia, 1, []);
+        [predicted_test, certezza] = predict(Cl, features_reshaped);
+        fprintf("%f \n", max(certezza));
+
+        % Ottengo il centroide della foglia corrente
+        centroid = stats_final(j).Centroid;
+        
+        % Scrivo il testo nell'immagine
+        text(centroid(1), centroid(2), predicted_test, ...
+            'Color', 'red', ...
+            'FontSize', 12, ...
+            'FontWeight', 'bold', ...
+            'HorizontalAlignment', 'center');
+    end
+
+        
     
-    varianza_locale = compute_local_var(im_gray, finestra);
-    [gabor, ~] = imgaborfilt(im_gray, 4, 90);
-    entropy_local = entropyfilt(im_gray);
-    
-    figure, imshow(col_medio), colorbar;
-    figure, imshow(sat);
-    figure, imshow(varianza_locale), colorbar;
-    figure, imshow(gabor, []), colorbar;
-    figure, imshow(entropy_local, []), colorbar;
+
+    % col_medio = mean(im, 3);
+    % sat = compute_sat(im);
+    % 
+    % im_gray = im2gray(im);
+    % finestra = 5;
+    % 
+    % varianza_locale = compute_local_var(im_gray, finestra);
+    % [gabor, ~] = imgaborfilt(im_gray, 4, 90);
+    % entropy_local = entropyfilt(im_gray);
+    % 
+    % figure, imshow(col_medio), colorbar;
+    % figure, imshow(sat);
+    % figure, imshow(varianza_locale), colorbar;
+    % figure, imshow(gabor, []), colorbar;
+    % figure, imshow(entropy_local, []), colorbar;
     
     % % lbp - estrazione e riduzione a 3 features
     % lbp = extractLBPFeatures(im2gray(im), 'CellSize', [128 128], 'NumNeighbors', 4);

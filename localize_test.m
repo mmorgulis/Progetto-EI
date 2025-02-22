@@ -1,4 +1,4 @@
-clear;
+    clear;
 close all;
 
 load("locator.mat");   
@@ -11,13 +11,13 @@ for i = 1:num_img_training
     [tr, tc, t_num_features] = size(test_features);
     test_features_reshaped = reshape(test_features, tr * tc, t_num_features);
     
-    % Predizione kNN per l'immagine corrente
+    % Predizione KNN per l'immagine corrente
     pred_labels = predict(C, test_features_reshaped);
     
     pred_image = reshape(pred_labels, [tr, tc]);
     
     % Post Processing
-    pred_image = imfill(pred_image, "holes"); % slide
+    pred_image = imfill(pred_image, "holes");
     
     gt_logical = logical(immagini_gt_test(:,:,i));
     pred_logical = logical(pred_image);
@@ -30,7 +30,7 @@ for i = 1:num_img_training
     
     subplot(1, 3, 2);
     imshow(pred_image, []);
-    title('Predizione kNN');
+    title('Predizione KNN');
     
     subplot(1, 3, 3);
     imshow(immagini_gt_test(:,:,i));
