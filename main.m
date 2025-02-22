@@ -8,7 +8,7 @@ load("classificator.mat");
 tipi_foglie = unique(Cl.ClassNames);
 
 % Carico immagine
-im = imread("Training\Bianco\salvia_training.jpg");
+im = imread("Img_Prova\3.jpg");
 composizione_foglie = imresize(im, 0.25);
 
 % Localizzo
@@ -42,8 +42,8 @@ for i = 1:num_comp_conn
 
     % Valuto se è unknown
     % certezza è la probabilità assegnata per ogni classe, quindi ne
-    % estraggo il max, certezza empirica scelta maggiore dell'40%
-    if (max(certezza) <= 0.40)
+    % estraggo il max, certezza empirica scelta maggiore dell'45%
+    if (max(certezza) < 0.50)
         tipo_foglia = 'unknown';
     end
 
